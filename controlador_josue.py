@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 #from modelo import General, Circle, Square as g, c, s
 import modelo as md
 
@@ -15,6 +16,10 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+
+font = 
+
+def add_text(text, ):
 
 
 # PYGAME
@@ -51,12 +56,15 @@ while run:
 
         if circle.positions[0][0] < 0 or circle.positions[0][0] > SCREEN_WIDTH - 10:
             game_over = True
-        elif circle.positions[0][1] < square.positions[0][1]:
-            game_over = True
+        # elif circle.positions[0][0] < square.positions[0][0] and circle.direction[0] == "L":
+        #     game_over = True
+        # elif circle.positions[0][0] > (square.positions[0][0] + SQUARE_L) and circle.direction[0] == "R":
+        #     game_over = True
         for position in circle.positions[1:]:
             if circle.positions[0] == position:
                 game_over = True
 
+    print(circle.positions[0])
     # Dibujos de la pantalla
     screen.fill(WHITE)
     circle.draw(screen)
