@@ -70,7 +70,6 @@
 
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMessageBox
 import sys
 
 # Model
@@ -82,7 +81,6 @@ from vista import Ventana
 class comunicacion():
     def __init__(self):
         self.__app = QtWidgets.QApplication(sys.argv)
-        self.__view = Ventana()
         self.__view = Ventana()
         self.__system = Sistema(client)
         self.controller = Controller(self.__view, self.__system)
