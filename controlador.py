@@ -1,4 +1,6 @@
 # import pygame
+
+import controlador_josue
 # #from modelo import General, Circle, Square as g, c, s
 # import modelo as md
 
@@ -73,7 +75,8 @@ from PyQt5 import QtWidgets
 import sys
 
 # Model
-from modelo import Sistema, draw_text, client
+from modelo import Sistema#, client
+import run_games as r
 
 # View
 from vista import Ventana
@@ -82,9 +85,9 @@ class comunicacion():
     def __init__(self):
         self.__app = QtWidgets.QApplication(sys.argv)
         self.__view = Ventana()
-        self.__system = Sistema(client)
-        self.controller = Controller(self.__view, self.__system)
-        self.__view.conexionControlador(self.controller) 
+        #self.__system = Sistema(client)
+        #self.controller = Controller(self.__view, self.__system)
+        #self.__view.conexionControlador(self.controller) 
  
     def main(self): # el que se va a encargar de correr el codigo 
         self.__view.show()
@@ -109,10 +112,9 @@ class Controller:
         self.__model.nombreAsignar(cc, name)
         self.__model.scoreAsignar(cc, score)
     
-    def run_pygame(self): # para hacer el de pygame
-        pass
-
 if __name__ == "__main__":
     control = comunicacion()
+    run = r.Run_game()
+    run.circle_run()
     control.main()
 

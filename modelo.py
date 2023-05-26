@@ -2,6 +2,7 @@ import pygame
 import random 
 import pymongo
 
+
 # Clases pymongo
 #client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
 #db = client.test    
@@ -39,18 +40,26 @@ class General:
         self.white = (255, 255, 255)
         self.red = (255, 0, 0)
         self.green = (0, 255, 0)
-
+        # Label
+        pygame.init()
+        self.font = pygame.font.SysFont( "Times New Roman", 25 )
+        
         # Tamaño ventana
         self.screen_width = 1000
         self.screen_height = 600
-        # Radio del circulo 
-        self.circle_radius = 20
+    def draw_text(self, text, surface, x, y):
+        text_object = self.font.render(text, True, self.black)  # el render es especifico de pygame para añadir texto en las pantallas
+        text_rect = text_object.get_rect() 
+        text_rect.center = (x, y)
+        surface.blit(text_object, text_rect)
+
 
 class Circle(General):
     def __init__(self):
         super().__init__()
-        self.positions = [(self.screen_width / 2, self.screen_height / 2)]
+        self.positions = [(self.screen_width / 2, 200 + 230)]
         self.direction = random.choice(["R", "L"])
+        self.circle_radius = 20
         self.circle_speed = 2
     def move(self):
         x, y = self.positions[0]
@@ -67,8 +76,8 @@ class Circle(General):
 class Square(General):
     def __init__(self):
         super().__init__()
+        self.positions = [(0, 200 + 20)]
         self.square_l = 230
-        self.positions = [(0, (self.screen_height/2) - self.square_l + self.circle_radius)]
     def location(self, direction):
         x, y = self.positions[0]
         if direction == "R":
@@ -80,10 +89,3 @@ class Square(General):
     def draw_square(self, surface): 
         for position in self.positions:
             pygame.draw.rect(surface, self.red, (position[0], position[1], self.square_l, self.square_l))
-
-# Para añadir texto en la ventana de pygame
-def draw_text(text, font, surface, x, y): # Creamos este para poder dibujar texto 
-    text_object = font.render(text, True, (0, 0, 0))  # el render es especifico de pygame para añadir texto en las pantallas
-    text_rect = text_object.get_rect() 
-    text_rect.center = (x, y)
-    surface.blit(text_object, text_rect)
