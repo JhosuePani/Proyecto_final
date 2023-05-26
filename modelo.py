@@ -53,8 +53,6 @@ class Circle(General):
             x += self.circle_speed
         elif self.direction[0] == "L":
             x -= self.circle_speed
-        elif self.direction[0] == "S":
-            x = x
         self.positions.insert(0, (x, y))
         self.positions.pop()
     def draw(self, surface):

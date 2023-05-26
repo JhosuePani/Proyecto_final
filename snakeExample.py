@@ -16,7 +16,7 @@ SCREEN_HEIGHT = 480
 CELL_SIZE = 20
 
 # Velocidad de la serpiente
-SNAKE_SPEED = 20
+SNAKE_SPEED = 4
 
 # Crear ventana de juego
 screen = pygame.display.set_mode( [SCREEN_WIDTH, SCREEN_HEIGHT] )
@@ -135,6 +135,6 @@ while run == True:
     
     # Actualizar pantalla 
     pygame.display.update()
-    clock.tick(10) # velocidad de los fps
+    clock.tick(50) # velocidad de los fps
 
 pygame.quit()
