@@ -1,13 +1,12 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox
+import imagenes.wallpaper
 
-class Ventana(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QMainWindows
+class Ventana(QtWidgets.QMainWindow):
     def __init__(self):
-        QtWidgets.QMainWindow.__init__(self) #Estoy llamando al constructro de la clase que herede
-        uic.loadUi(r'vistas\main_menu.ui', self) # estoy cargando el archivo de Qtdesign con el que voy a trabajar
-
-        # Vamos a conectar los botones
-        #self.verifica = QtWidgets.QPushButton(self)
+        QtWidgets.QMainWindow.__init__(self)
+        uic.loadUi('imagenes\main_menu.ui', self)
+        
         self.IngresarBoton.clicked.connect( self.verificar_dato )
         self.IngresarBoton.clicked.connect( self.agregar_dato )
 
@@ -20,7 +19,7 @@ class Ventana(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QMa
             self.controlador.agregarDatos(cedula, self.nombre_celda.text())
             self.abrirVentanaSecundaria()
         else:
-            QMessageBox.about(self, "Alerta", "La cédula solo puede contener numeros..." )
+            QMessageBox.about(self, "Alerta", "La cédula solo puede contener numeros...")
 
     def verificar_dato(self):
         self.controlador.verificarDatos(self.cedula_celda.text())
