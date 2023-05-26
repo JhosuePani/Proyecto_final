@@ -1,8 +1,12 @@
 import pygame
+import random
 from modelo import General, Circle, Square
 
 class Run_game():
-    def __init__(self):
+    def __init__(self, General, Circle, Square):
+        self.general = General
+        self.circle = Circle
+        self.square = Square
         self.run = True
         self.game_over = False
         self.score = 0
@@ -11,9 +15,9 @@ class Run_game():
     # JUEGO #1( Prediccion Velocidad )
     def circle_run(self):
         
-        g = General() 
-        c = Circle()
-        s = Square()
+        g = self.general 
+        c = self.circle
+        s = self.square
         
         pygame.init()
 
@@ -26,7 +30,7 @@ class Run_game():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     self.run = False
-                elif event.time == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
                         if (c.positions[0][0] - c.circle_radius) == s.positions[0][0] and c.direction == "L":
                             self.score += 100
@@ -39,15 +43,17 @@ class Run_game():
                         elif s.positions[0][0] - 16 <= c.positions[0][0] <= s.positions[0][0] + 16  and c.direction == "L":
                             self.score += 20
                         elif s.positions[0][0] - 214 <= c.positions[0][0] <= s.positions[0][0] + 246  and c.direction == "R":
-                            score += 20
-                        g = General()
-                        c = Circle()
-                        s = Square()
+                            self.score += 20
+                        g = self.general 
+                        c = self.circle
+                        s = self.square
                         self.cont += 1
-                    elif event.key == pygame.K_t and self.game_over == True:
-                        g = General()
-                        c = Circle()
-                        s = Square()
+                    elif event.key == pygame.K_t and self.game_over == True :
+                        g = self.general 
+                        c = self.circle
+                        s = self.square
+                        c.direction = random.choice(["R", "L"])
+                        s.location( c.direction )
                         self.score = 0
                         self.cont = 0
                         self.game_over = False
@@ -70,7 +76,7 @@ class Run_game():
             s.draw_square(screen)
 
             if self.cont > 6:
-                g.draw_text("PRUEBA FINALIZADA, Presione la tecla T para reiniciar", screen, g.screen_width/2, g.screen_heigth/2)
+                g.draw_text("PRUEBA FINALIZADA, Presione la tecla T para reiniciar", screen, g.screen_width/2, g.screen_height/2)
                 self.game_over = True
             
             # Actualizar la pantalla
@@ -79,5 +85,5 @@ class Run_game():
         
         pygame.quit()
 
-run = Run_game()
-run.circle_run()
+r = Run_game(General(), Circle(), Square())
+r.circle_run()

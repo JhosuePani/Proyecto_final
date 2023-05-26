@@ -4,8 +4,8 @@ import pymongo
 
 
 # Clases pymongo
-#client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
-#db = client.test    
+client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
+db = client.test    
 
 class Sistema:
     def __init__(self, client):
@@ -43,7 +43,6 @@ class General:
         # Label
         pygame.init()
         self.font = pygame.font.SysFont( "Times New Roman", 25 )
-        
         # Tamaño ventana
         self.screen_width = 1000
         self.screen_height = 600
@@ -89,3 +88,86 @@ class Square(General):
     def draw_square(self, surface): 
         for position in self.positions:
             pygame.draw.rect(surface, self.red, (position[0], position[1], self.square_l, self.square_l))
+    
+    
+class Run_game():
+    def __init__(self):
+        self.run = True
+        self.game_over = False
+        self.score = 0
+        self.cont = 0
+
+    # JUEGO #1( Prediccion Velocidad )
+    def circle_run(self):
+        
+        g = General() 
+        c = Circle()
+        s = Square()
+        
+        pygame.init()
+
+        screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
+        pygame.display.set_caption("Circulo")
+        clock = pygame.time.Clock()
+
+        while self.run:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    self.run = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        if (c.positions[0][0] - c.circle_radius) == s.positions[0][0] and c.direction == "L":
+                            self.score += 100
+                        elif (c.positions[0][0] + c.circle_radius) == (s.positions[0][0] + 230) and c.direction == "R":
+                            self.score += 100
+                        elif s.positions[0][0] - 8 <= c.positions[0][0] <= s.positions[0][0] + 8  and c.direction == "L":
+                            self.score += 60
+                        elif s.positions[0][0] - 222 <= c.positions[0][0] <= s.positions[0][0] + 238  and c.direction == "R":
+                            self.score += 60
+                        elif s.positions[0][0] - 16 <= c.positions[0][0] <= s.positions[0][0] + 16  and c.direction == "L":
+                            self.score += 20
+                        elif s.positions[0][0] - 214 <= c.positions[0][0] <= s.positions[0][0] + 246  and c.direction == "R":
+                            self.score += 20
+                        g = General() 
+                        c = Circle()
+                        s = Square()
+                        self.cont += 1
+                    elif event.key == pygame.K_t and self.game_over == True :
+                        g = General() 
+                        c = Circle()
+                        s = Square()
+                        c.direction = random.choice(["R", "L"])
+                        s.location( c.direction )
+                        self.score = 0
+                        self.cont = 0
+                        self.game_over = False
+            
+            if self.game_over == False:
+
+                c.move()
+                s.location( c.direction[0] )
+
+                if c.positions[0][0] < 0 or c.positions[0][0] > g.screen_width - 10:
+                    self.game_over = True
+                for position in c.positions[1:]:
+                    if c.positions[0] == position:
+                        self.game_over = True
+            
+            # Dibujar en la pantalla
+            screen.fill(g.white)
+            g.draw_text(f'Score: {self.score}', screen, g.screen_width / 2, 15)
+            c.draw(screen)
+            s.draw_square(screen)
+
+            if self.cont > 6:
+                g.draw_text("PRUEBA FINALIZADA, Presione la tecla T para reiniciar", screen, g.screen_width/2, g.screen_height/2)
+                self.game_over = True
+            
+            # Actualizar la pantalla
+            pygame.display.update()
+            clock.tick(60)
+        
+        pygame.quit()
+
+
