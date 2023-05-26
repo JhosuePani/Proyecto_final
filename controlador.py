@@ -73,7 +73,7 @@ from PyQt5 import QtWidgets
 import sys
 
 # Model
-from modelo import Sistema, client
+from modelo import Sistema, draw_text, client
 
 # View
 from vista import Ventana
@@ -104,11 +104,12 @@ class Controller:
             pass
             # QMessageBox.about(self, "Alerta", "Esta cédula ya está registrada, ¿está seguro de cambiar el nombre? Una vez cambiado el nombre los datos se reiniciarán")
 
-    def agregarDatos(self, cc, name):
+    def agregarDatos(self, cc, name, score):
         self.__model.cedulaAsignar(cc)
         self.__model.nombreAsignar(cc, name)
+        self.__model.scoreAsignar(cc, score)
     
-    def ejecutar(self): # para hacer el de pygame
+    def run_pygame(self): # para hacer el de pygame
         pass
 
 if __name__ == "__main__":

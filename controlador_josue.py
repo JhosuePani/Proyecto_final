@@ -65,6 +65,13 @@ while run:
                 square = md.Square()
                 game_over = False
                 a += 1
+            elif event.key == pygame.K_t and game_over == True:
+                circle = md.Circle()
+                square = md.Square()
+                score = 0
+                a = 0
+                game_over = False
+
 
     if game_over == False:
         # Mover el circulo 
@@ -77,11 +84,17 @@ while run:
             if circle.positions[0] == position:
                 game_over = True
 
+
     # Dibujos de la pantalla
     screen.fill(WHITE)
     draw_text("Score: {}".format(score), font, screen, SCREEN_WIDTH/2, 10)
     circle.draw(screen)
     square.draw_square(screen)
+
+    if a > 6:
+        draw_text("PRUEBA FINALIZADA, Presione la tecla T para reiniciar", font, screen, SCREEN_WIDTH/2, SCREEN_HEIGHT / 2)
+        game_over = True
+
     # Actualizar la pantalla 
     pygame.display.update()
     clock.tick(60)

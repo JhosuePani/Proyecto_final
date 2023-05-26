@@ -3,8 +3,8 @@ import random
 import pymongo
 
 # Clases pymongo
-client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Josue123@cluster0.megrtoc.mongodb.net/?retryWrites=true&w=majority') # tengo que mirar mañana en la unversidad por que no me da 
-db = client.test    
+#client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
+#db = client.test    
 
 class Sistema:
     def __init__(self, client):
@@ -25,6 +25,11 @@ class Sistema:
             return paciente['Nombre']
         else:
             return None
+    
+    def scoreAsignar(self, cc, score): # Juanjo este metodo lo asigne para que podamos conectar eso de tal manera que se guarde el score
+        doc = {'Cedula': cc}
+        sco = {'$set': {'Score': score}}
+        self.__paciente.update_one(doc, sco)
 
 # Clases de pygame
 class General:
@@ -77,5 +82,8 @@ class Square(General):
             pygame.draw.rect(surface, self.red, (position[0], position[1], self.square_l, self.square_l))
 
 # Para añadir texto en la ventana de pygame
-def text_box(text, font, surface, x, y):
-    pass
+def draw_text(text, font, surface, x, y): # Creamos este para poder dibujar texto 
+    text_object = font.render(text, True, (0, 0, 0))  # el render es especifico de pygame para añadir texto en las pantallas
+    text_rect = text_object.get_rect() 
+    text_rect.center = (x, y)
+    surface.blit(text_object, text_rect)
