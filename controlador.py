@@ -85,14 +85,14 @@ class comunicacion():
         self.__view = Ventana()
         self.__view = Ventana()
         self.__system = Sistema(client)
-        self.controller = controller(self.__view, self.__system)
+        self.controller = Controller(self.__view, self.__system)
         self.__view.conexionControlador(self.controller) 
  
     def main(self): # el que se va a encargar de correr el codigo 
         self.__view.show()
         sys.exit(self.__app.exec_())
 
-class controller():
+class Controller:
     def __init__(self, view, model):
         self.__view = view
         self.__model = model
@@ -109,6 +109,9 @@ class controller():
     def agregarDatos(self, cc, name):
         self.__model.cedulaAsignar(cc)
         self.__model.nombreAsignar(cc, name)
+    
+    def ejecutar(self): # para hacer el de pygame
+        pass
 
 if __name__ == "__main__":
     control = comunicacion()
