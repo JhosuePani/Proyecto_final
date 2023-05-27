@@ -49,6 +49,7 @@ class Controller:
     
     # Metodos para cambiar de ventana
     def cambiar_a_ventana2(self):
+        self.__secondMenu.check_coord()
         self.__secondMenu.show()
         self.__mainMenu.close()
     
@@ -56,15 +57,19 @@ class Controller:
         self.__mainMenu.show()
         self.__secondMenu.close()
     
-
+    # Separé este método de run_third_one porque lo necesito (JUAN)
+    def get_score_predic(self):
+        return self.__system.verificarScore(self.__mainMenu.cc, "Prediccion de Velocidad")
+    
     # Metodos para correr el codigo llamadado de la vista 
     def run_third_one(self):
-        if self.__system.verificarScore(self.__mainMenu.cc, "Prediccion de Velocidad") == None:
+        if self.get_score_predic() == None:
             self.__runGame = Run_game()
             self.__runGame.circle_run()
         if self.__system.verificarCedula(self.__mainMenu.cc) == True:
             self.__system.scoreAsignar(self.__mainMenu.cc, self.__runGame.getScore(), "Prediccion de Velocidad")
         self.__secondMenu.showScore(self.__runGame.getScore())
+        self.__secondMenu.check_coord() 
 
     
 if __name__ == "__main__":
