@@ -39,9 +39,11 @@ class Ventana(QtWidgets.QMainWindow):
                 self.controlador.agregarDatos(self.cc, self.nombre_celda.text())
                 self.info_completa = True
             else:
-                QMessageBox.about(self, "Alerta", "La cédula solo puede contener numeros...")
+                QMessageBox.warning(self, "Alerta", "La cédula solo puede contener números.",
+                                    QMessageBox.Ok)
         else:
-            QMessageBox.about(self, "Alerta", "Ingrese todos los datos...")
+             QMessageBox.warning(self, "Alerta", "Ingrese todos los datos.",
+                                    QMessageBox.Ok)
     
 
     def abrirVentana2(self):
@@ -61,9 +63,6 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
         self.refleBoton.clicked.connect( self.run_second ) # Reflejos
         self.predicBoton.clicked.connect( self.run_third ) # Prediccion velocidad
         self.bBoton.clicked.connect( self.goBack )
-        
-        # chulos
-        self.InfoVentana = Ventana() # traigo atributos de la ventana anterior
 
     def conexionControlador(self, control):
         self.controlador = control
@@ -71,6 +70,8 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
     def check_coord(self):
         if self.controlador.get_score_predic() != None:
             self.checkPREDI.setChecked(True)
+        else:
+            self.checkPREDI.setChecked(False)
 
     def run_first(self): # Coordinacion
         self.controlador.run_first_one()

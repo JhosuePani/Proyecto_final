@@ -59,7 +59,7 @@ class Controller:
     
     # Separé este método de run_third_one porque lo necesito (JUAN)
     def get_score_predic(self):
-        return self.__system.verificarScore(self.__mainMenu.cc) # ACA ESTA EL PROBLEMA, AHORA SIGO MIRABNDO LA LLOGICA
+        return self.__system.verificarScore(self.__mainMenu.cc, "Prediccion de Velocidad") # ACA ESTA EL PROBLEMA, AHORA SIGO MIRABNDO LA LLOGICA
     
     # Metodos para correr el codigo llamadado de la vista 
     def run_first_one(self):
