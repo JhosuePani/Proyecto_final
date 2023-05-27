@@ -1,116 +1,71 @@
 # import pygame
 
-import archivosNoHacenPARTE.controlador_josue as controlador_josue
-# #from modelo import General, Circle, Square as g, c, s
-# import modelo as md
-
-# # Clases
-# # Datos principales 
-# SCREEN_WIDTH = 1000
-# SCREEN_HEIGHT = 600
-# CIRCLE_SPEED = 2
-# CIRCLE_RADIUS = 20
-# SQUARE_L = 230
-
-# # Colores
-# BLACK = (0, 0, 0)
-# WHITE = (255, 255, 255)
-# RED = (255, 0, 0)
-# GREEN = (0, 255, 0)
-
-
-# # PYGAME
-# pygame.init()
-
-# screen = pygame.display.set_mode( [SCREEN_WIDTH, SCREEN_HEIGHT] )
-# pygame.display.set_caption("Circulo")
-
-# clock = pygame.time.Clock()
-
-
-# circle = md.Circle()
-# square = md.Square()
-# run = True
-# game_over = False
-# score = 0
-# while run:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             run = False
-#         # Usando el teclado
-#         elif event.type == pygame.KEYDOWN:
-#             if event.key == pygame.K_r:
-#                 circle.direction = "S" # Para que pare en la posicion en que este cuando presione la tecla
-#                 circle = md.Circle()
-#                 square = md.Square()
-#                 game_over = False
-
-#     if game_over == False:
-#         # Mover el circulo 
-#         circle.move()
-#         square.location(circle.direction[0])
-
-#         if circle.positions[0][0] < 0 or circle.positions[0][0] > SCREEN_WIDTH - 10:
-#             game_over = True
-#         elif circle.positions[0][1] < square.positions[0][1]:
-#             game_over = True
-#         for position in circle.positions[1:]:
-#             if circle.positions[0] == position:
-#                 game_over = True
-
-#     # Dibujos de la pantalla
-#     screen.fill(WHITE)
-#     circle.draw(screen)
-#     square.draw_square(screen)
-
-#     # Actualizar la pantalla 
-#     pygame.display.update()
-#     clock.tick(60)
-
-# pygame.quit()
-
-
 from PyQt5 import QtWidgets
 import sys
 
 # Model
-from modelo import Sistema, client
-
+from modelo import Sistema, Run_game ,client
 
 # View
-from vista import Ventana
+from vista import Ventana, Ventana2
 
 class comunicacion():
     def __init__(self):
         self.__app = QtWidgets.QApplication(sys.argv)
-        self.__view = Ventana()
+        # Ventanas( Vista )
+        self.__mainMenu = Ventana()
+        self.__secondMenu = Ventana2()
+        # Modelo
         self.__system = Sistema(client)
-        self.controller = Controller(self.__view, self.__system)
-        self.__view.conexionControlador(self.controller) 
+        self.__runGame = Run_game()
+        ######
+        self.controller = Controller(self.__mainMenu, self.__secondMenu, self.__system, self.__runGame)
+        self.__mainMenu.conexionControlador(self.controller) 
+        self.__secondMenu.conexionControlador(self.controller)
  
     def main(self): # el que se va a encargar de correr el codigo 
-        self.__view.show()
+        self.__mainMenu.show()
         sys.exit(self.__app.exec_())
 
 class Controller:
-    def __init__(self, view, model):
-        self.__view = view
-        self.__model = model
+    def __init__(self, mainMenu, secondMenu ,system, runGame):
+        self.__mainMenu = mainMenu
+        self.__secondMenu = secondMenu
+        self.__system = system
+        self.__runGame = runGame
 
-    def verificarDatos(self, cc):
-        nombre = self.__model.cedulaVerificar(cc)
-        if nombre != None:
-            pass
-            #self.__view.rellenarDatos(nombre)
+    def obtener_Nombre(self, cc):
+        return self.__system.obtenerNombre(cc)
+    
+    def verificar_Cedula(self, cc):
+        if self.__system.verificarCedula(cc):
+            return True
         else:
-            pass
-            # QMessageBox.about(self, "Alerta", "Esta cédula ya está registrada, ¿está seguro de cambiar el nombre? Una vez cambiado el nombre los datos se reiniciarán")
+            return False
+            
+    def agregarDatos(self, cc, name):
+        self.__system.cedulaAsignar(cc)
+        self.__system.nombreAsignar(cc, name)
+    
+    # Metodos para cambiar de ventana
+    def cambiar_a_ventana2(self):
+        self.__secondMenu.show()
+        self.__mainMenu.close()
+    
+    def cambiar_a_ventana1(self):
+        self.__mainMenu.show()
+        self.__secondMenu.close()
+    
 
-    def agregarDatos(self, cc, name, score):
-        self.__model.cedulaAsignar(cc)
-        self.__model.nombreAsignar(cc, name)
-        self.__model.scoreAsignar(cc, score)
+    # Metodos para correr el codigo llamadado de la vista 
+    def run_third_one(self):
+        if self.__system.verificarScore(self.__mainMenu.cc, "Prediccion de Velocidad") == None:
+            self.__runGame = Run_game()
+            self.__runGame.circle_run()
+        if self.__system.verificarCedula(self.__mainMenu.cc) == True:
+            self.__system.scoreAsignar(self.__mainMenu.cc, self.__runGame.getScore(), "Prediccion de Velocidad")
+        self.__secondMenu.showScore(self.__runGame.getScore())
+
     
 if __name__ == "__main__":
     control = comunicacion()

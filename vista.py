@@ -8,54 +8,79 @@ class Ventana(QtWidgets.QMainWindow):
         uic.loadUi('imagenes\main_menu.ui', self)
         
         self.IngresarBoton.clicked.connect( self.verificar_dato )
-        self.IngresarBoton.clicked.connect( self.agregar_dato )
+        self.IngresarBoton.clicked.connect( self.abrirVentana2 )
+
+        self.cc = ''
+        self.nombre = ''
+
+        # Este atributo solo retorna True cuando la cédula y nombre
+        # no están vacios en la ventana
+        self.info_completa = False
 
     def conexionControlador(self, control):
         self.controlador = control
 
-    def agregar_dato(self):
-        cedula = self.cedula_celda.text()
-        if cedula.isdigit():
-            self.controlador.agregarDatos(cedula, self.nombre_celda.text())
-            self.abrirVentanaSecundaria()
+    def verificar_dato(self):      
+        if self.controlador.verificar_Cedula(self.cedula_celda.text()):
+            if self.controlador.obtener_Nombre(self.cedula_celda.text()) == self.nombre_celda.text():
+                self.cc = self.cedula_celda.text()
+                self.nombre = self.nombre_celda.text()
+                self.info_completa = True
+            else:
+                QMessageBox.about(self, "Alerta", "La cédula ya está registrada, ingrese el mismo nombre")
         else:
-            QMessageBox.about(self, "Alerta", "La cédula solo puede contener numeros...")
+            self.agregar_dato()
 
-    def verificar_dato(self):
-        self.controlador.verificarDatos(self.cedula_celda.text())
-
-    def rellenarDatos(self, nombre):
-        self.nombre_celda.setText(nombre)
+    def agregar_dato(self):
+        self.cc = self.cedula_celda.text()
+        self.nombre = self.nombre_celda.text()
+        if self.cc != '' and self.nombre != '':
+            if self.cc.isdigit():
+                self.controlador.agregarDatos(self.cc, self.nombre_celda.text())
+                self.info_completa = True
+            else:
+                QMessageBox.about(self, "Alerta", "La cédula solo puede contener numeros...")
+        else:
+            QMessageBox.about(self, "Alerta", "Ingrese todos los datos...")
     
-    def abrirVentanaSecundaria(self):
-        self.hide()
-        ventana2 = Ventana2()
-        ventana2.show()
+    def abrirVentana2(self):
+        if self.info_completa:
+            self.controlador.cambiar_a_ventana2()
+            self.info_completa = False
 
 
 class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QMainWindows
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self) #Estoy llamando al constructro de la clase que herede
-        uic.loadUi(r'Final/vistas/selec_menu.ui', self) # estoy cargando el archivo de Qtdesign con el que voy a trabajar
+        uic.loadUi(r'imagenes/selec_menu.ui', self) # estoy cargando el archivo de Qtdesign con el que voy a trabajar
 
         # Vamos a conectar los botones
         #self.verifica = QtWidgets.QPushButton(self)
-        self.IngresarBoton.clicked.connect( self.verificar_dato )
-        self.IngresarBoton.clicked.connect( self.agregar_dato )
+        self.coordBoton.clicked.connect( self.run_first ) # Coordinacion
+        self.refleBoton.clicked.connect( self.run_second ) # Reflejos
+        self.predicBoton.clicked.connect( self.run_third ) # Prediccion velocidad
+        self.bBoton.clicked.connect( self.goBack )
+        # chulos
+        # self.checkCOORD.
 
     def conexionControlador(self, control):
         self.controlador = control
 
-    def agregar_dato(self):
-        cedula = self.cedula_celda.text()
-        if cedula.isdigit():
-            self.controlador.agregarDatos(cedula, self.nombre_celda.text())
-        else:
-            QMessageBox.about(self, "Alerta", "La cédula solo puede contener numeros..." )
+    def run_first(self):
+        pass
+    
+    def run_second(self):
+        pass
 
-    def verificar_dato(self):
-        self.controlador.verificarDatos(self.cedula_celda.text())
+    def run_third(self):
+        self.controlador.run_third_one()
+    
+    def puntaje(self):
+        pass
 
-    def rellenarDatos(self, nombre):
-        self.nombre_celda.setText(nombre)
-        
+    def goBack(self):
+        self.controlador.cambiar_a_ventana1()
+    
+    def showScore(self, score):
+        score = str(score)
+        QMessageBox.about(self, "SCORE", "El Score obtenido fue: " + score)
