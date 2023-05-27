@@ -158,6 +158,9 @@
      </property>
     </widget>
     <widget class="QCheckBox" name="checkCOORD">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -173,13 +176,16 @@
       <string/>
      </property>
      <property name="checkable">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="checked">
       <bool>false</bool>
      </property>
     </widget>
     <widget class="QCheckBox" name="checkREFLE">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -192,13 +198,16 @@
       <string/>
      </property>
      <property name="checkable">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="checked">
       <bool>false</bool>
      </property>
     </widget>
     <widget class="QCheckBox" name="checkPREDI">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -211,9 +220,12 @@
       <string/>
      </property>
      <property name="checkable">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="tristate">
       <bool>false</bool>
      </property>
     </widget>
@@ -286,7 +298,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../../../../Documentos/proyecto_final/Info2023/Final/vistas/wallpaper.qrc"/>
+  <include location="wallpaper.qrc"/>
  </resources>
  <connections/>
 </ui>
