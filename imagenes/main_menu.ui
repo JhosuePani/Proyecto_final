@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>PRUEBA PSICOMÉTRICA</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="wallpaper.qrc">
+    <normaloff>:/cct/logo.png</normaloff>:/cct/logo.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="Fondo">
     <property name="geometry">
@@ -193,7 +197,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../../../../Documentos/proyecto_final/Info2023/Final/vistas/wallpaper.qrc"/>
+  <include location="wallpaper.qrc"/>
  </resources>
  <connections/>
 </ui>

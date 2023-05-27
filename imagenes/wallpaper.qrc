@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="cct">
+    <file>logo.png</file>
     <file>fondo-png-transparente.png</file>
     <file>wallpaper_main.jpg</file>
   </qresource>

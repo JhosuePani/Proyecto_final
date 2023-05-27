@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>PRUEBA PSICOMÉTRICA</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="wallpaper.qrc">
+    <normaloff>:/cct/logo.png</normaloff>:/cct/logo.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="Fondo">
     <property name="geometry">
