@@ -4,7 +4,7 @@ import pymongo
 
 
 # Clases pymongo
-client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
+client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Josue123@cluster0.megrtoc.mongodb.net/')  
 db = client.test    
 
 class Sistema:
@@ -58,6 +58,7 @@ class General:
         self.white = (255, 255, 255)
         self.red = (255, 0, 0)
         self.green = (0, 255, 0)
+        self.color = random.choice([self.red, self.green])
         # Label
         pygame.init()
         self.font = pygame.font.SysFont( "Times New Roman", 25 )
@@ -70,7 +71,7 @@ class General:
         text_rect.center = (x, y)
         surface.blit(text_object, text_rect)
 
-
+# Clases para el primer juego
 class Circle(General):
     def __init__(self):
         super().__init__()
@@ -106,7 +107,28 @@ class Square(General):
     def draw_square(self, surface): 
         for position in self.positions:
             pygame.draw.rect(surface, self.red, (position[0], position[1], self.square_l, self.square_l))
+
+# Clases para el segundo juego( Coordinacion )
+class Rectangle(General):
+    def __init__(self):
+        super().__init__()
+        self.positions = [(self.screen_width/2, self.screen_height/2)]
+        self.side_a = 500
+    def draw_rectangle(self, surface):
+        for position in self.positions:
+            pygame.draw.rect(surface, self.color, (position[0], position[1], self.side_a, self.side_a))
     
+class StaticCircle(General):
+    def __init__(self):
+        super().__init__()
+        self.positions = [(self.screen_width/2, self.screen_height/2)]
+        self.circle_radius = 250
+    def draw_static_circle(self, surface):
+        for position in self.positions:
+            pygame.draw.circle(surface, self.color, (position[0], position[1]), self.circle_radius)
+
+# Clases para el tercer juego( Reflejos )
+
 
 class Run_game():
     def __init__(self):
@@ -125,7 +147,7 @@ class Run_game():
         pygame.init()
 
         screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
-        pygame.display.set_caption("Circulo")
+        pygame.display.set_caption("Prediccion de Velocidad")
         clock = pygame.time.Clock()
 
         while self.run:
@@ -178,6 +200,33 @@ class Run_game():
             clock.tick(60)
         
         pygame.quit()
+    
+
+    # JUEGO #2 ( Coordinacion )
+    def cordination_run(self):
+        
+        g = General()
+        r = Rectangle()
+        c = StaticCircle()
+
+        pygame.init()
+
+        screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
+        pygame.display.set_caption("Coordinacion")
+        clock = pygame.time.Clock()
+
+        while self.run:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    self.run = False 
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_w:
+                        pass
+
+    # JUEGO #3 ( Reflejos )
+    def reflexes_run(self):
+        pass
 
     def getScore(self):
         return self.score
