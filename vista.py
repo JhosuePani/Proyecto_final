@@ -73,7 +73,7 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
             self.checkPREDI.setChecked(True)
 
     def run_first(self): # Coordinacion
-        pass
+        self.controlador.run_first_one()
     
     def run_second(self): # Reflejos
         pass

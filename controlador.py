@@ -59,9 +59,19 @@ class Controller:
     
     # Separé este método de run_third_one porque lo necesito (JUAN)
     def get_score_predic(self):
-        return self.__system.verificarScore(self.__mainMenu.cc, "Prediccion de Velocidad")
+        return self.__system.verificarScore(self.__mainMenu.cc) # ACA ESTA EL PROBLEMA, AHORA SIGO MIRABNDO LA LLOGICA
     
     # Metodos para correr el codigo llamadado de la vista 
+    def run_first_one(self):
+        if self.get_score_predic() == None:
+            self.__runGame = Run_game()
+            self.__runGame.cordination_run()
+        if self.__system.verificarCedula(self.__mainMenu.cc) == True:
+            self.__system.scoreAsignar(self.__mainMenu.cc, self.__runGame.getScore(), "Coordinacion")
+        self.__secondMenu.showScore(self.__runGame.getScore())
+        self.__secondMenu.check_coord() # Este la no se como funcionaria verificando cada cosa como se debe
+
+    
     def run_third_one(self):
         if self.get_score_predic() == None:
             self.__runGame = Run_game()
