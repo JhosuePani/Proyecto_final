@@ -67,11 +67,29 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
     def conexionControlador(self, control):
         self.controlador = control
     
+    ### Estos métodos establecen el check si un juego ya tiene su puntaje ###
+    
     def check_coord(self):
-        if self.controlador.get_score_predic() != None:
+        if self.controlador.get_score_game("Coordinacion") != None:
+            self.checkCOORD.setChecked(True)
+        else:
+            self.checkCOORD.setChecked(False)
+
+    def check_refle(self):
+        pass
+        # if self.controlador.get_score_game("") != None:
+        #     self.checkREFLE.setChecked(True)
+        # else:
+        #     self.checkREFLE.setChecked(False)
+
+    def check_predic(self):
+        if self.controlador.get_score_game("Prediccion de Velocidad") != None:
             self.checkPREDI.setChecked(True)
         else:
             self.checkPREDI.setChecked(False)
+    
+
+    ### metodos de ejecución de las pruebas ###
 
     def run_first(self): # Coordinacion
         self.controlador.run_first_one()
