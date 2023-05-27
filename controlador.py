@@ -69,6 +69,7 @@ class Controller:
         if self.__system.verificarCedula(self.__mainMenu.cc) == True:
             self.__system.scoreAsignar(self.__mainMenu.cc, self.__runGame.getScore(), "Prediccion de Velocidad")
         self.__secondMenu.showScore(self.__runGame.getScore())
+        self.__secondMenu.check_coord()
 
     
 if __name__ == "__main__":
