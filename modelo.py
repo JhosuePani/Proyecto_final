@@ -41,11 +41,11 @@ class Sistema:
         else:
             return True
         
-    def verificarScore(self, cc, game):################################# SOLO FUNCIONA COORDINACION
+    def verificarScore(self, cc, game):
         documento = self.__paciente.find_one({'Cedula': cc})
         return documento.get(f'Score_{game}')
 
-    def scoreAsignar(self, cc, score, game): # Juanjo este metodo lo asigne para que podamos conectar eso de tal manera que se guarde el score
+    def scoreAsignar(self, cc, score, game):
         doc = {'Cedula': cc}
         sco = {'$set': {f'Score_{game}': score}}
         self.__paciente.update_one(doc, sco)
