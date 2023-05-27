@@ -4,7 +4,7 @@ import pymongo
 
 
 # Clases pymongo
-client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
+client  = pymongo.MongoClient('mongodb+srv://jjosecortes:jjosecortes@info2.1k5lrgf.mongodb.net/?retryWrites=true&w=majority') # tengo que mirar mañana en la unversidad por que no me da 
 db = client.test    
 
 class Sistema:

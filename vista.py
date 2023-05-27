@@ -43,6 +43,7 @@ class Ventana(QtWidgets.QMainWindow):
         else:
             QMessageBox.about(self, "Alerta", "Ingrese todos los datos...")
     
+
     def abrirVentana2(self):
         if self.info_completa:
             self.controlador.cambiar_a_ventana2()
@@ -60,11 +61,16 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
         self.refleBoton.clicked.connect( self.run_second ) # Reflejos
         self.predicBoton.clicked.connect( self.run_third ) # Prediccion velocidad
         self.bBoton.clicked.connect( self.goBack )
+        
         # chulos
-        # self.checkCOORD.
+        self.InfoVentana = Ventana() # traigo atributos de la ventana anterior
 
     def conexionControlador(self, control):
         self.controlador = control
+    
+    def check_coord(self):
+        if self.controlador.get_score_predic() != None:
+            self.checkPREDI.setChecked(True)
 
     def run_first(self): # Coordinacion
         pass
