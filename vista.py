@@ -66,13 +66,13 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
     def conexionControlador(self, control):
         self.controlador = control
 
-    def run_first(self):
+    def run_first(self): # Coordinacion
         pass
     
-    def run_second(self):
+    def run_second(self): # Reflejos
         pass
 
-    def run_third(self):
+    def run_third(self): # Prediccion de velocidad
         self.controlador.run_third_one()
     
     def puntaje(self):
