@@ -4,7 +4,7 @@ import pymongo
 
 
 # Clases pymongo
-client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
+client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba531@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
 db = client.test    
 
 class Sistema:
@@ -71,7 +71,7 @@ class General:
         text_rect.center = (x, y)
         surface.blit(text_object, text_rect)
 
-# Clases para el primer juego
+# Clases para el primer juego ( Prediccion de velocidad )
 class Circle(General):
     def __init__(self):
         super().__init__()

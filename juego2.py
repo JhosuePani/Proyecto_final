@@ -1,12 +1,10 @@
-
-
 import pygame
 
 # Inicializar Pygame
 pygame.init()
 
 # Dimensiones de la ventana
-width, height = 400, 300
+width, height = 200, 100
 
 # Crear la ventana
 screen = pygame.display.set_mode((width, height))
@@ -17,25 +15,31 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 # Fuente
-font = pygame.font.Font(None, 50)
+font = pygame.font.Font(None, 36)
 
 # Variables del cronómetro
 elapsed_time = 0
 running = False
 
+# Configuración del reloj
+clock = pygame.time.Clock()
+FPS = 1  # Contar en segundos (1 frame por segundo)
+run = True
 # Bucle principal del juego
-while True:
+while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            exit()
+            run = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 running = not running
+                if not running:
+                    elapsed_time = 0
 
     # Actualizar el cronómetro si está en ejecución
     if running:
-        elapsed_time += pygame.time.get_ticks() // 1000
+        elapsed_time += 1
 
     # Limpiar la pantalla
     screen.fill(BLACK)
@@ -47,3 +51,5 @@ while True:
     # Actualizar la pantalla
     pygame.display.flip()
 
+    # Controlar el número de fotogramas por segundo
+    clock.tick(FPS)
