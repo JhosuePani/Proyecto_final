@@ -71,6 +71,7 @@ class General:
         text_rect.center = (x, y)
         surface.blit(text_object, text_rect)
 
+
 # Clases para el primer juego ( Prediccion de velocidad )
 class Circle(General):
     def __init__(self):
@@ -112,7 +113,7 @@ class Square(General):
 class Rectangle(General):
     def __init__(self):
         super().__init__()
-        self.positions = [(self.screen_width/2, self.screen_height/2)]
+        self.positions = [(250, 50)]
         self.side_a = 500
     def draw_rectangle(self, surface):
         for position in self.positions:
@@ -126,7 +127,7 @@ class StaticCircle(General):
     def draw_static_circle(self, surface):
         for position in self.positions:
             pygame.draw.circle(surface, self.color, (position[0], position[1]), self.circle_radius)
-
+    
 # Clases para el tercer juego( Reflejos )
 
 
@@ -215,14 +216,43 @@ class Run_game():
         pygame.display.set_caption("Coordinacion")
         clock = pygame.time.Clock()
 
+        shapes = [c, r]
+        figure = random.choice(shapes)
+        
         while self.run:
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     self.run = False 
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w:
-                        pass
+                    if event.key == pygame.K_w or event.key == pygame.K_a or event.key == pygame.K_s or event.key == pygame.K_d:
+                        # if event.key == pygame.K_w and r.color == r.red:# W para el rectangulo rojo
+                        #     pass
+                        # elif event.key == pygame.K_a and r.color == r.green:# A para el rectangulo verde
+                        #     pass
+                        # elif event.key == pygame.K_s and c.color == c.red:# S para el circulo rojo
+                        #     pass
+                        # elif event.key == pygame.K_d and c.color == c.green:# D para el circulo verde
+                        #     pass
+                        figure = random.choice(shapes)
+                        r.color = random.choice([r.red, r.green])
+                        c.color = random.choice([c.red, c.green])   
+
+            # rellenar la pantalla
+            screen.fill(g.white)
+
+            # Dibujar en pantalla
+            if figure == c:
+                figure.draw_static_circle(screen)
+            elif figure == r:
+                figure.draw_rectangle(screen)
+
+            # Actualizar la pantalla
+            pygame.display.update()
+            clock.tick(60)
+
+        pygame.quit()
 
     # JUEGO #3 ( Reflejos )
     def reflexes_run(self):
@@ -230,4 +260,3 @@ class Run_game():
 
     def getScore(self):
         return self.score
-

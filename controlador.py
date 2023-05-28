@@ -67,7 +67,7 @@ class Controller:
     def run_first_one(self):
         if self.get_score_game("Coordinacion") == None:
             self.__runGame = Run_game()
-            self.__runGame.cordination_run()
+            self.__runGame.cordination_run()        
         if self.__system.verificarCedula(self.__mainMenu.cc) == True:
             self.__system.scoreAsignar(self.__mainMenu.cc, self.__runGame.getScore(), "Coordinacion")
         self.__secondMenu.showScore(self.__runGame.getScore())
