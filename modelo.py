@@ -5,8 +5,8 @@ import time
 
 
 # Clases pymongo
-#client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Josue123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
-#db = client.test    
+client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Josue123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
+db = client.test    
 
 class Sistema:
     def __init__(self, client):
@@ -297,6 +297,3 @@ class Run_game():
     # JUEGO #3 ( Reflejos )
     def reflexes_run(self):
         pass
-
-r = Run_game()
-r.cordination_run()
