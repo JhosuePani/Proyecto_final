@@ -238,7 +238,7 @@ class Run_game():
         shapes = [c, r]
         figure = random.choice(shapes)
         
-        while self.run:
+        while self.run :
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -264,7 +264,8 @@ class Run_game():
                             self.restartClock()
                     figure = random.choice(shapes)
                     r.color = random.choice([r.red, r.green])
-                    c.color = random.choice([c.red, c.green])   
+                    c.color = random.choice([c.red, c.green])  
+                    self.cont += 1 
                     
             # rellenar la pantalla y añadir el texto del score
             screen.fill(g.white)
@@ -281,12 +282,16 @@ class Run_game():
                 c.color = random.choice([c.red, c.green])
                 # Hay que volver a inicializar el tiempo 
                 self.restartClock()
+                self.cont += 1
                 
             # Dibujar en pantalla dependiendo de la figura que elija el random
             if figure == c:
                 figure.draw_static_circle(screen)
             elif figure == r:
                 figure.draw_rectangle(screen)
+
+            if self.cont > 10:
+                self.run = False
 
             # Actualizar la pantalla
             pygame.display.update()
