@@ -1,55 +1,23 @@
 import pygame
 
+
+
 # Inicializar Pygame
 pygame.init()
-
-# Dimensiones de la ventana
-width, height = 200, 100
-
-# Crear la ventana
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Cronómetro")
-
-# Colores
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-
-# Fuente
-font = pygame.font.Font(None, 36)
-
-# Variables del cronómetro
-elapsed_time = 0
-running = False
-
-# Configuración del reloj
+screen = pygame.display.set_mode((1000, 800))
+greenLight = pygame.image.load( "imagenes\green_trafficLight.webp" )
+greenLight = pygame.transform.scale(greenLight, (500, 400))
 clock = pygame.time.Clock()
-FPS = 1  # Contar en segundos (1 frame por segundo)
-run = True
-# Bucle principal del juego
-while run:
+
+while True:
+    screen.fill((0, 0, 0))
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            run = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                running = not running
-                if not running:
-                    elapsed_time = 0
+        if event.type == pygame.QUIT: pygame.quit()
 
-    # Actualizar el cronómetro si está en ejecución
-    if running:
-        elapsed_time += 1
+    # hay que especificar las cordenadas en las que se quire poner
+    screen.blit( greenLight, (250, 200) ) # blit al parecer sirve para sincronizar ambas cosas
+    pygame.display.update()
+    clock.tick(20)
 
-    # Limpiar la pantalla
-    screen.fill(BLACK)
 
-    # Mostrar el tiempo transcurrido en el cronómetro
-    timer_text = font.render(str(elapsed_time), True, WHITE)
-    screen.blit(timer_text, (width // 2 - timer_text.get_width() // 2, height // 2 - timer_text.get_height() // 2))
-
-    # Actualizar la pantalla
-    pygame.display.flip()
-
-    # Controlar el número de fotogramas por segundo
-    clock.tick(FPS)
+pygame.quit()

@@ -130,7 +130,16 @@ class StaticCircle(General):
             pygame.draw.circle(surface, self.color, (position[0], position[1]), self.circle_radius)
     
 # Clases para el tercer juego( Reflejos )
-
+class Images(General):
+    def __init__(self):
+        super().__init__()
+        self.positions = ([(self.screen_width - self.imageWidth) / 2, (self.screen_height - self.imageHeight) / 2])
+    def showImage(self, surface, image):
+        surface.blit(image, self.positions)
+    def transformScale(self, image):
+        self.imageWidth = 450
+        self.imageHeight = 380
+        image = pygame.transform.scale(image, (self.imageWidth, self.imageHeight))
 
 # Clase para correr los juegos
 class Run_game():
@@ -153,6 +162,10 @@ class Run_game():
     def restartClock(self):
         self.initialClock = time.time()
         self.finalClock = time.time()
+
+    def restarRandomClock(self):
+        self.random_time_green = random.uniform(6, 10)
+        self.random_time_red = random.uniform(1, 6)
     
     # JUEGO #1( Prediccion Velocidad )
     def circle_run(self):
@@ -163,6 +176,7 @@ class Run_game():
         
         pygame.init()
 
+        # Inicializar la pantalla y el reloj
         screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
         pygame.display.set_caption("Prediccion de Velocidad")
         clock = pygame.time.Clock()
@@ -231,6 +245,7 @@ class Run_game():
 
         pygame.init()
         
+        # Inicializar la pantalla 
         screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
         pygame.display.set_caption("Coordinacion")
         clock = pygame.time.Clock()
@@ -267,7 +282,7 @@ class Run_game():
                     c.color = random.choice([c.red, c.green])  
                     self.cont += 1 
                     
-            # rellenar la pantalla y añadir el texto del score
+            # Rellenar la pantalla y añadir el texto del score
             screen.fill(g.white)
             g.draw_text(f'Score: {self.score}', screen, g.screen_width / 2, 15)
 
@@ -301,4 +316,53 @@ class Run_game():
 
     # JUEGO #3 ( Reflejos )
     def reflexes_run(self):
-        pass
+        
+        g = General()
+        i = Images()
+
+        pygame.init()
+
+        # Definir un tiempo aleatorio 
+        self.random_time_green = random.uniform(6, 10)    
+        self.random_time_red = random.uniform(1, 6)   
+            
+        # Inicializar la pantalla y el reloj
+        screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
+        pygame.display.set_caption( "Reflejos" )
+        clock = pygame.time.Clock()
+
+        # Vamos a cargar las imagenes que vamos a usar
+        greenLight = pygame.image.load( "imagenes\green_trafficLight.webp" )
+        redLight = pygame.image.load( "imagenes\red_trafficLight.jpg" )
+        oldMan = pygame.image.load( "imagenes\old_man.png" )
+        i.transformScale( greenLight )
+        i.transformScale( redLight )
+        i.transformScale( oldMan )
+        images = [greenLight, redLight, oldMan]
+        # Usando la libreria random para elegir una imagen al azar
+        image = random.choice( images )
+
+        # Vamos a crear running para ayudarnos con la tecla del espacio
+        running = True
+
+        while self.run:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.run = False
+                    pygame.quit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        pass
+            
+            # Mostrar la imagen elegida en el random
+            if image == greenLight:
+                i.showImage(screen, image)
+            elif image == redLight or oldMan:
+                i.showImage(screen, image)
+            
+            # Rellenar la pagina de un color determinado
+            screen.fill(g.white) 
+            # Actualizar la pantalla
+            pygame.display.update()
+            clock.tick(30)
+        pygame.quit()
