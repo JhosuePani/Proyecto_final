@@ -1,11 +1,12 @@
 import pygame
 import random 
 import pymongo
+import time
 
 
 # Clases pymongo
-client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Ba531@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
-db = client.test    
+#client  = pymongo.MongoClient('mongodb+srv://josuepaniagua:Josue123@cluster0.megrtoc.mongodb.net/') # tengo que mirar mañana en la unversidad por que no me da 
+#db = client.test    
 
 class Sistema:
     def __init__(self, client):
@@ -131,6 +132,7 @@ class StaticCircle(General):
 # Clases para el tercer juego( Reflejos )
 
 
+# Clase para correr los juegos
 class Run_game():
     def __init__(self):
         self.run = True
@@ -138,6 +140,20 @@ class Run_game():
         self.score = 0
         self.cont = 0
 
+    # Metodos que nos van a servir en los resoectivos juegos
+    def getScore(self):
+        return self.score
+
+    def timePassedScore(self, current_time):
+        if current_time <= 2:
+            self.score += 100
+        elif 3 < current_time <= 4:
+            self.score += 50
+        
+    def restartClock(self):
+        self.initialClock = time.time()
+        self.finalClock = time.time()
+    
     # JUEGO #1( Prediccion Velocidad )
     def circle_run(self):
         
@@ -210,8 +226,11 @@ class Run_game():
         r = Rectangle()
         c = StaticCircle()
 
-        pygame.init()
+        # Iniciar el reloj
+        self.initialClock = time.time()
 
+        pygame.init()
+        
         screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
         pygame.display.set_caption("Coordinacion")
         clock = pygame.time.Clock()
@@ -220,29 +239,50 @@ class Run_game():
         figure = random.choice(shapes)
         
         while self.run:
-            
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     self.run = False 
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w or event.key == pygame.K_a or event.key == pygame.K_s or event.key == pygame.K_d:
-                        # if event.key == pygame.K_w and r.color == r.red:# W para el rectangulo rojo
-                        #     pass
-                        # elif event.key == pygame.K_a and r.color == r.green:# A para el rectangulo verde
-                        #     pass
-                        # elif event.key == pygame.K_s and c.color == c.red:# S para el circulo rojo
-                        #     pass
-                        # elif event.key == pygame.K_d and c.color == c.green:# D para el circulo verde
-                        #     pass
-                        figure = random.choice(shapes)
-                        r.color = random.choice([r.red, r.green])
-                        c.color = random.choice([c.red, c.green])   
-
-            # rellenar la pantalla
+                    # Letras que vamos a tener en cuenta
+                    if event.key == pygame.K_w:# W para el rectangulo rojo
+                        if figure == r and r.color == r.red:
+                            self.timePassedScore(current_time)
+                            self.restartClock()
+                    elif event.key == pygame.K_a:# A para el rectangulo verde
+                        if figure == r and r.color == r.green:
+                            self.timePassedScore(current_time)
+                            self.restartClock()
+                    elif event.key == pygame.K_s :# S para el circulo rojo
+                        if figure == c and  c.color == c.red:
+                            self.timePassedScore(current_time)
+                            self.restartClock()
+                    elif event.key == pygame.K_d :# D para el circulo verde
+                        if figure == c and c.color == c.green:
+                            self.timePassedScore(current_time)
+                            self.restartClock()
+                    figure = random.choice(shapes)
+                    r.color = random.choice([r.red, r.green])
+                    c.color = random.choice([c.red, c.green])   
+                    
+            # rellenar la pantalla y añadir el texto del score
             screen.fill(g.white)
+            g.draw_text(f'Score: {self.score}', screen, g.screen_width / 2, 15)
 
-            # Dibujar en pantalla
+            # tiempo final y Tiempo transcurrido
+            self.finalClock = time.time()
+            current_time = self.finalClock - self.initialClock
+            
+            # Dibujar una figura al azar si transcurren 10seg sin presionar una tecla
+            if current_time > 6:
+                figure = random.choice(shapes)
+                r.color = random.choice([r.red, r.green])
+                c.color = random.choice([c.red, c.green])
+                # Hay que volver a inicializar el tiempo 
+                self.restartClock()
+                
+            # Dibujar en pantalla dependiendo de la figura que elija el random
             if figure == c:
                 figure.draw_static_circle(screen)
             elif figure == r:
@@ -258,5 +298,5 @@ class Run_game():
     def reflexes_run(self):
         pass
 
-    def getScore(self):
-        return self.score
+r = Run_game()
+r.cordination_run()
