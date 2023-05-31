@@ -133,14 +133,10 @@ class StaticCircle(General):
 class Images(General):
     def __init__(self):
         super().__init__()
-        self.positions = ([(self.screen_width - self.imageWidth) / 2, (self.screen_height - self.imageHeight) / 2])
-    def showImage(self, surface, image):
-        surface.blit(image, self.positions)
-    def transformScale(self, image):
-        self.imageWidth = 450
+        self.imageWidth = 470
         self.imageHeight = 380
-        image = pygame.transform.scale(image, (self.imageWidth, self.imageHeight))
-
+        self.positions = ([(self.screen_width - self.imageWidth) / 2, (self.screen_height - self.imageHeight) / 2])
+    
 # Clase para correr los juegos
 class Run_game():
     def __init__(self):
@@ -164,8 +160,8 @@ class Run_game():
         self.finalClock = time.time()
 
     def restarRandomClock(self):
-        self.random_time_green = random.uniform(6, 10)
-        self.random_time_red = random.uniform(1, 6)
+        self.random_time_green = random.uniform(2, 5)    
+        self.random_time_red = random.uniform(0.01, 0.06)              
     
     # JUEGO #1( Prediccion Velocidad )
     def circle_run(self):
@@ -253,6 +249,7 @@ class Run_game():
         shapes = [c, r]
         figure = random.choice(shapes)
         
+        # Ciclo para que la pestalla se mantenga
         while self.run :
 
             for event in pygame.event.get():
@@ -323,8 +320,9 @@ class Run_game():
         pygame.init()
 
         # Definir un tiempo aleatorio 
-        self.random_time_green = random.uniform(6, 10)    
-        self.random_time_red = random.uniform(1, 6)   
+        self.initialClock = time.time()
+        self.random_time_green = random.uniform(2, 5)    
+        self.random_time_red = random.uniform(0.01, 0.06)   
             
         # Inicializar la pantalla y el reloj
         screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
@@ -333,36 +331,77 @@ class Run_game():
 
         # Vamos a cargar las imagenes que vamos a usar
         greenLight = pygame.image.load( "imagenes\green_trafficLight.webp" )
-        redLight = pygame.image.load( "imagenes\red_trafficLight.jpg" )
-        oldMan = pygame.image.load( "imagenes\old_man.png" )
-        i.transformScale( greenLight )
-        i.transformScale( redLight )
-        i.transformScale( oldMan )
-        images = [greenLight, redLight, oldMan]
+        redLight = pygame.image.load( r"imagenes\red_trafficLight.jpg" )
+        oldMan = pygame.image.load( r"imagenes\old_man.png" )
+        pedestrianLight = pygame.image.load( r"imagenes\red_pedestrianLight.jpg" )
+        # Transformar el tamaño de la imagen
+        greenLight = pygame.transform.scale(greenLight, (i.imageWidth, i.imageHeight))
+        redLight = pygame.transform.scale(redLight, (i.imageWidth, i.imageHeight))
+        oldMan = pygame.transform.scale(oldMan, (i.imageWidth, i.imageHeight))
+        pedestrianLight = pygame.transform.scale(pedestrianLight, (i.imageWidth - 10, i.imageHeight + 30))
+        images = [greenLight, redLight, oldMan, pedestrianLight]
         # Usando la libreria random para elegir una imagen al azar
         image = random.choice( images )
 
-        # Vamos a crear running para ayudarnos con la tecla del espacio
-        running = True
-
+        # Creamos el ciclo para que la pestalla se mantenga
         while self.run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
                     pygame.quit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        pass
             
-            # Mostrar la imagen elegida en el random
-            if image == greenLight:
-                i.showImage(screen, image)
-            elif image == redLight or oldMan:
-                i.showImage(screen, image)
-            
+            # Necesitamos que la tecla SPACE cuente si esta preionada
+            keys = pygame.key.get_pressed()
+
             # Rellenar la pagina de un color determinado
             screen.fill(g.white) 
+            g.draw_text(f"Score: {self.score}", screen, g.screen_width / 2, 15)
+
+            # Tiempo final y actual 
+            self.finalClock = time.time()
+            current_time = self.finalClock - self.initialClock
+
+            # Siguiendo con la logica de la tecla
+            if keys[pygame.K_SPACE] : 
+                if image == greenLight:
+                    self.score += 0.5
+                elif image == pedestrianLight:
+                    self.score += 0.5
+                elif image == oldMan:
+                    self.score -= 2
+                elif image == redLight:
+                    self.score -= 2
+
+            # Vamos a calcular el tiempo
+            if image == greenLight or pedestrianLight:
+                if current_time >= self.random_time_green:
+                    image = random.choice( images )
+                    self.restartClock()
+                    self.restarRandomClock()
+                    self.cont += 1
+            elif image == redLight or oldMan :
+                if current_time >= self.random_time_red:
+                    image = random.choice( images )
+                    self.restartClock()
+                    self.restarRandomClock()
+
+            # Mostrar la imagen elegida en el random
+            if image == greenLight:
+                screen.blit( greenLight, ((g.screen_width - i.imageWidth) / 2, (g.screen_height - i.imageHeight) / 2) )
+            elif image == pedestrianLight:
+                screen.blit( pedestrianLight, ((g.screen_width - i.imageWidth - 10) / 2, (g.screen_height - i.imageHeight + 30) / 2) )
+            elif image == redLight:
+                screen.blit( redLight, ((g.screen_width - i.imageWidth) / 2, (g.screen_height - i.imageHeight) / 2) )
+            elif image == oldMan:
+                screen.blit( oldMan, ((g.screen_width - i.imageWidth) / 2, (g.screen_height - i.imageHeight) / 2) )
+
+            # Para detener el juego
+            if self.cont > 6:
+                self.run = False 
+            
             # Actualizar la pantalla
             pygame.display.update()
             clock.tick(30)
         pygame.quit()
+r = Run_game()
+r.reflexes_run()

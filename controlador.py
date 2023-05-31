@@ -73,6 +73,14 @@ class Controller:
         self.__secondMenu.showScore(self.__runGame.getScore())
         self.__secondMenu.check_coord()
 
+    def run_second_one(self):
+        if self.get_score_game("reflejos") == None:
+            self.__runGame = Run_game()
+            self.__runGame.reflexes_run()        
+        if self.__system.verificarCedula(self.__mainMenu.cc) == True:
+            self.__system.scoreAsignar(self.__mainMenu.cc, self.__runGame.getScore(), "Reflejos")
+        self.__secondMenu.showScore(self.__runGame.getScore())
+        self.__secondMenu.check_refle()
     
     def run_third_one(self):
         if self.get_score_game("Prediccion de Velocidad") == None:

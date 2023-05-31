@@ -76,11 +76,10 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
             self.checkCOORD.setChecked(False)
 
     def check_refle(self):
-        pass
-        # if self.controlador.get_score_game("") != None:
-        #     self.checkREFLE.setChecked(True)
-        # else:
-        #     self.checkREFLE.setChecked(False)
+        if self.controlador.get_score_game("") != None:
+            self.checkREFLE.setChecked(True)
+        else:
+            self.checkREFLE.setChecked(False)
 
     def check_predic(self):
         if self.controlador.get_score_game("Prediccion de Velocidad") != None:
@@ -95,14 +94,11 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
         self.controlador.run_first_one()
     
     def run_second(self): # Reflejos
-        pass
+        self.controlador.run_second_one()
 
     def run_third(self): # Prediccion de velocidad
         self.controlador.run_third_one()
     
-    def puntaje(self):
-        pass
-
     def goBack(self):
         self.controlador.cambiar_a_ventana1()
     
