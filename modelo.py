@@ -161,7 +161,7 @@ class Run_game():
 
     def restarRandomClock(self):
         self.random_time_green = random.uniform(2, 5)    
-        self.random_time_red = random.uniform(0.01, 0.06)              
+        self.random_time_red = random.uniform(0.01, 0.04)              
     
     # JUEGO #1( Prediccion Velocidad )
     def circle_run(self):
@@ -322,7 +322,7 @@ class Run_game():
         # Definir un tiempo aleatorio 
         self.initialClock = time.time()
         self.random_time_green = random.uniform(2, 5)    
-        self.random_time_red = random.uniform(0.01, 0.06)   
+        self.random_time_red = random.uniform(0.01, 0.04)   
             
         # Inicializar la pantalla y el reloj
         screen = pygame.display.set_mode( [g.screen_width, g.screen_height] )
@@ -361,7 +361,7 @@ class Run_game():
             self.finalClock = time.time()
             current_time = self.finalClock - self.initialClock
 
-            # Siguiendo con la logica de la tecla
+            # Siguiendo con la logica de la tecla SPACE
             if keys[pygame.K_SPACE] : 
                 if image == greenLight:
                     self.score += 0.5
@@ -396,7 +396,7 @@ class Run_game():
                 screen.blit( oldMan, ((g.screen_width - i.imageWidth) / 2, (g.screen_height - i.imageHeight) / 2) )
 
             # Para detener el juego
-            if self.cont > 6:
+            if self.cont > 7:
                 self.run = False 
             
             # Actualizar la pantalla

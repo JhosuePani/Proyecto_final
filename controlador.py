@@ -74,7 +74,7 @@ class Controller:
         self.__secondMenu.check_coord()
 
     def run_second_one(self):
-        if self.get_score_game("reflejos") == None:
+        if self.get_score_game("Reflejos") == None:
             self.__runGame = Run_game()
             self.__runGame.reflexes_run()        
         if self.__system.verificarCedula(self.__mainMenu.cc) == True:

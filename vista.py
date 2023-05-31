@@ -76,7 +76,7 @@ class Ventana2(QtWidgets.QMainWindow): # La clase ventana herreda de QWitgets.QM
             self.checkCOORD.setChecked(False)
 
     def check_refle(self):
-        if self.controlador.get_score_game("") != None:
+        if self.controlador.get_score_game("Reflejos") != None:
             self.checkREFLE.setChecked(True)
         else:
             self.checkREFLE.setChecked(False)
