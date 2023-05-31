@@ -403,5 +403,3 @@ class Run_game():
             pygame.display.update()
             clock.tick(30)
         pygame.quit()
-r = Run_game()
-r.reflexes_run()
